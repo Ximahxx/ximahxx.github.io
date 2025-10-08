@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Auth Tester</title>
+  </head>
+  <body>
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input name="firstName" placeholder="First name" required /><br />
+      <input name="lastName" placeholder="Last name" required /><br />
+      <input name="email" type="email" placeholder="Email" required /><br />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        required
+      /><br />
+      <input name="phone" placeholder="Phone" required /><br />
+      <input name="role" placeholder="role (client|admin)" required /><br />
+      <input name="DOB" placeholder="YYYY-MM-DD" required /><br />
+      <input name="location" placeholder="Location" required /><br />
+      <input
+        name="skills"
+        placeholder="comma separated skills"
+        required
+      /><br />
+      <input name="govID" placeholder="govID" required /><br />
+      <button type="submit">Register</button>
+    </form>
+
+    <h2>Verify OTP</h2>
+    <form id="verifyForm">
+      <input id="verifyEmail" placeholder="Email used to register" /><br />
+      <input id="otp" placeholder="OTP code" /><br />
+      <button type="submit">Verify OTP</button>
+    </form>
+
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input name="email" type="email" placeholder="Email" /><br />
+      <input name="password" type="password" placeholder="Password" /><br />
+      <button type="submit">Login</button>
+    </form>
+
+    <h3>Status</h3>
+    <pre id="status">idle</pre>
+
+    <script>
+      const BASE = "https://backend-skillzonet.onrender.com/api/auth"; // adjust if your auth routes differ
+
+      const status = (txt) =>
+        (document.getElementById("status").textContent = txt);
+
+      // Register
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          const body = {
+            role: form.role.value,
+            firstName: form.firstName.value,
+            lastName: form.lastName.value,
+            email: form.email.value,
+            password: form.password.value,
+            phone: form.phone.value,
+            DOB: form.DOB.value,
+            location: form.location.value,
+            skills: form.skills.value,
+            govID: form.govID.value,
+          };
+          try {
+            const res = await fetch(`${BASE}/signup`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            status("register: " + JSON.stringify(data));
+          } catch (err) {
+            status("register error: " + err);
+          }
+        });
+
+      // Verify OTP
+      document
+        .getElementById("verifyForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("verifyEmail").value;
+          const otp = document.getElementById("otp").value;
+          try {
+            const res = await fetch(`${BASE}/verify-otp`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, otp }),
+            });
+            const data = await res.json();
+            status("verify: " + JSON.stringify(data));
+            // if server returns token on verify, store it
+            if (data.token) localStorage.setItem("token", data.token);
+          } catch (err) {
+            status("verify error: " + err);
+          }
+        });
+
+      // Login
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          try {
+            const res = await fetch(`${BASE}/login`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: form.email.value,
+                password: form.password.value,
+              }),
+            });
+            const data = await res.json();
+            status("login: " + JSON.stringify(data));
+            if (data.token) {
+              localStorage.setItem("token", data.token);
+              status(
+                "Saved token. You can call protected endpoints using Authorization: Bearer <token>."
+              );
+            }
+          } catch (err) {
+            status("login error: " + err);
+          }
+        });
+
+      // helper: call a protected endpoint
+      async function callProtected() {
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          "https://backend-skillzonet.onrender.com/api/auth/me",
+          {
+            headers: { Authorization: token ? `Bearer ${token}` : "" },
+          }
+        );
+        const d = await res.json();
+        status("me: " + JSON.stringify(d));
+      }
+
+      // expose to window for manual testing in console
+      window.callProtected = callProtected;
+    </script>
+  </body>
+</html>
