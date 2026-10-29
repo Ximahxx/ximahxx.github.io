@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICAN Chapter 5 Master Study App: Technology & Data Analysis</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Confetti for quiz celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Header -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-2 md:mb-0">
+                <i class="fa-solid fa-graduation-cap text-3xl text-indigo-400"></i>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">ICAN BE Study App</h1>
+                    <p class="text-xs text-indigo-300">Foundation Level | Chapter 5: Technology & Data Analysis</p>
+                </div>
+            </div>
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-2 bg-indigo-950 p-1 rounded-xl">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow"><i class="fa-solid fa-house mr-1"></i> Dashboard</button>
+                <button onclick="switchTab('flashcards')" id="nav-flashcards" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition text-indigo-300 hover:text-white hover:bg-indigo-800"><i class="fa-solid fa-clone mr-1"></i> Flashcards</button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition text-indigo-300 hover:text-white hover:bg-indigo-800"><i class="fa-solid fa-brain mr-1"></i> Exam Quiz</button>
+                <button onclick="switchTab('cheatsheet')" id="nav-cheatsheet" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition text-indigo-300 hover:text-white hover:bg-indigo-800"><i class="fa-solid fa-book-open mr-1"></i> Core Notes</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- DASHBOARD TAB -->
+        <section id="tab-dashboard" class="space-y-6">
+            <div class="bg-gradient-to-r from-indigo-800 to-blue-700 text-white rounded-2xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row justify-between items-center">
+                <div class="space-y-3 mb-6 md:mb-0">
+                    <span class="bg-indigo-500 bg-opacity-40 text-indigo-200 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold">Exam Prep Tracker</span>
+                    <h2 class="text-2xl md:text-3xl font-bold">Ace Your Chapter 5 Exam!</h2>
+                    <p class="text-indigo-100 max-w-xl text-sm leading-relaxed">
+                        Chapter 5 covers business computers, IT systems, e-commerce models, cybersecurity risks, and emerging technologies like cloud computing and blockchain. Use our active recall tools to make it stick!
+                    </p>
+                </div>
+                <div class="bg-white text-slate-900 p-6 rounded-xl shadow-lg w-full md:w-72 text-center space-y-4">
+                    <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Your Progress</div>
+                    <div class="text-4xl font-extrabold text-indigo-600" id="overall-progress-text">0%</div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5">
+                        <div id="overall-progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500">Complete flashcards & quiz sessions to boost your score.</p>
+                </div>
+            </div>
+
+            <!-- Quick Action Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="switchTab('flashcards')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-indigo-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-clone"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Interactive Flashcards</h3>
+                    <p class="text-sm text-slate-600 mb-4">Master high-yield definitions, ERPs, CRM, and cybersecurity mitigations with spaced repetition.</p>
+                    <span class="text-indigo-600 font-semibold text-sm flex items-center">Start Flashcards <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i></span>
+                </div>
+
+                <div onclick="switchTab('quiz')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-indigo-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Exam Simulation Quiz</h3>
+                    <p class="text-sm text-slate-600 mb-4">Test your knowledge with 10 rigorous, ICAN-style application and scenario-based multiple-choice questions.</p>
+                    <span class="text-blue-600 font-semibold text-sm flex items-center">Take Quiz <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i></span>
+                </div>
+
+                <div onclick="switchTab('cheatsheet')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-indigo-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Chapter 5 Core Notes</h3>
+                    <p class="text-sm text-slate-600 mb-4">Review condensed bullet points covering IT systems, e-commerce, disaster recovery, and emerging tech.</p>
+                    <span class="text-emerald-600 font-semibold text-sm flex items-center">Read Notes <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLASHCARDS TAB -->
+        <section id="tab-flashcards" class="hidden space-y-6 max-w-2xl mx-auto">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-clone text-indigo-600 mr-2"></i> Active Recall Flashcards</h2>
+                <span id="flashcard-counter" class="text-sm font-semibold text-slate-500 bg-slate-200 px-3 py-1 rounded-full">Card 1 of 10</span>
+            </div>
+
+            <!-- Flashcard Container -->
+            <div id="flashcard-box" onclick="flipCard()" class="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-lg min-h-[320px] flex flex-col justify-between cursor-pointer hover:border-indigo-400 transition transform perspective">
+                <div class="flex justify-between items-center text-xs font-semibold text-indigo-600 uppercase tracking-widest">
+                    <span id="flashcard-category">Core Concept</span>
+                    <span>Click card to flip <i class="fa-solid fa-rotate ml-1"></i></span>
+                </div>
+                <div class="my-auto text-center py-6">
+                    <h3 id="flashcard-front" class="text-2xl font-bold text-slate-900">Loading flashcard...</h3>
+                    <p id="flashcard-back" class="text-lg text-indigo-700 font-medium hidden mt-4 leading-relaxed">Loading definition...</p>
+                </div>
+                <div class="text-center text-xs text-slate-400">
+                    💡 Tip: Say the answer out loud before flipping!
+                </div>
+            </div>
+
+            <!-- Flashcard Controls -->
+            <div class="flex justify-between items-center">
+                <button onclick="prevCard()" class="bg-white border border-slate-300 text-slate-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-slate-50 transition shadow-sm">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button onclick="nextCard()" class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-indigo-700 transition shadow-md">
+                    Next Card <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- EXAM QUIZ TAB -->
+        <section id="tab-quiz" class="hidden space-y-6 max-w-3xl mx-auto">
+            <div id="quiz-intro" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center space-y-4">
+                <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Chapter 5 Practice Exam</h2>
+                <p class="text-slate-600 max-w-md mx-auto text-sm">
+                    This quiz contains 10 rigorous exam-style questions covering IT systems, ERP, cybersecurity mitigation, e-commerce, and emerging tech.
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg">
+                    Start Exam Quiz <i class="fa-solid fa-play ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Active Quiz Box -->
+            <div id="quiz-box" class="hidden bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                    <span id="quiz-progress-label" class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Question 1 of 10</span>
+                    <span id="quiz-timer" class="text-xs font-semibold text-slate-500"><i class="fa-regular fa-clock mr-1"></i> ICAN Standard Prep</span>
+                </div>
+                
+                <h3 id="quiz-question-text" class="text-lg md:text-xl font-bold text-slate-900 leading-snug">Question text goes here...</h3>
+
+                <div id="quiz-options-container" class="space-y-3">
+                    <!-- Options injected dynamically -->
+                </div>
+
+                <div id="quiz-feedback-box" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                    <div id="quiz-hint-text" class="text-xs text-slate-500 italic max-w-md"></div>
+                    <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-indigo-700 transition">
+                        Next Question <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Results Box -->
+            <div id="quiz-results" class="hidden bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center space-y-6">
+                <div class="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900">Quiz Completed!</h3>
+                <p id="quiz-score-summary" class="text-lg text-slate-600">You scored 8 out of 10 (80%)</p>
+                <div class="flex justify-center space-x-4">
+                    <button onclick="resetQuiz()" class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-indigo-700 transition shadow">
+                        Retake Quiz <i class="fa-solid fa-rotate-right ml-2"></i>
+                    </button>
+                    <button onclick="switchTab('dashboard')" class="bg-slate-100 text-slate-700 px-6 py-2.5 rounded-xl font-semibold hover:bg-slate-200 transition">
+                        Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CORE NOTES TAB -->
+        <section id="tab-cheatsheet" class="hidden space-y-6 max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-book-open text-emerald-600 mr-2"></i> Chapter 5 Core Summary Notes</h2>
+                        <p class="text-xs text-slate-500">High-yield study points from ICAN Business Environment Study Text.</p>
+                    </div>
+                    <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-print mr-1"></i> Print Notes</button>
+                </div>
+
+                <div class="space-y-6 text-sm text-slate-700 leading-relaxed">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-base text-indigo-900 mb-2"><i class="fa-solid fa-desktop mr-2"></i> 5.1 Business Uses of Computers & IT Systems</h3>
+                        <ul class="list-disc pl-5 space-y-1.5">
+                            <li><strong>Database Systems:</strong> Structured collections of data managed by DBMS for efficient storage, retrieval, and integrity.</li>
+                            <li><strong>Accounting Software:</strong> Automates financial record keeping, ledgers, accounts payable/receivable, and statutory reporting.</li>
+                            <li><strong>Enterprise Resource Planning (ERP):</strong> Integrated software systems (e.g., SAP, Oracle) that streamline and coordinate all business operations across departments.</li>
+                            <li><strong>CRM (Customer Relationship Management):</strong> Systems designed to manage interactions with current and potential customers to boost retention and sales.</li>
+                            <li><strong>Cybersecurity Risks:</strong> Malware, ransomware, phishing, and data breaches. <em>Mitigations:</em> Strong passwords, multi-factor authentication (MFA), regular backups, employee training, and robust IT security policies.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-base text-indigo-900 mb-2"><i class="fa-solid fa-globe mr-2"></i> 5.2 E-Commerce & E-Business</h3>
+                        <ul class="list-disc pl-5 space-y-1.5">
+                            <li><strong>E-Commerce Models:</strong> B2B (Business-to-Business), B2C (Business-to-Consumer), C2C (Consumer-to-Consumer), and C2B.</li>
+                            <li><strong>Digitisation of the Middleman:</strong> Platforms like Amazon, eBay, Konga, and Jiji connect buyers and sellers directly, reducing friction and redefining retail distribution.</li>
+                            <li><strong>Data Centre Disaster Recovery:</strong> Contingency planning, offsite backups, and redundant systems to ensure business continuity during cyber attacks or power outages.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-base text-indigo-900 mb-2"><i class="fa-solid fa-microchip mr-2"></i> 5.3 Emerging Technologies & Accounting</h3>
+                        <ul class="list-disc pl-5 space-y-1.5">
+                            <li><strong>Cloud Computing:</strong> On-demand delivery of computing services over the internet (IaaS, PaaS, SaaS), offering scalability and remote access.</li>
+                            <li><strong>Blockchain:</strong> A decentralized, immutable digital ledger that records transactions across a network, ensuring transparency and security in banking and supply chains.</li>
+                            <li><strong>Fintech:</strong> Technology-enabled financial innovations (mobile money, peer-to-peer lending, robo-advisors) transforming traditional banking.</li>
+                            <li><strong>Internet of Things (IoT):</strong> Network of physical objects embedded with sensors and software to exchange data and track supply chain assets in real time.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-6">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>ICAN Foundation Level — Business Environment (BE) Study App. Built for your success in November 2025 syllabus and beyond.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow');
+                btn.classList.add('text-indigo-300', 'hover:text-white', 'hover:bg-indigo-800');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-indigo-300', 'hover:text-white', 'hover:bg-indigo-800');
+                activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Flashcards Data
+        const flashcardsData = [
+            { front: "Enterprise Resource Planning (ERP)", back: "An integrated software system that manages and coordinates all core business processes and operations across departments (e.g., SAP, Oracle)." },
+            { front: "Ransomware", back: "A type of malware that encrypts a victim's files and demands payment (ransom) to restore access to the system." },
+            { front: "Cloud Computing", back: "The on-demand delivery of computing services (storage, servers, databases, networking, software) over the internet." },
+            { front: "Blockchain Technology", back: "A decentralized, immutable digital ledger that securely records transactions across multiple computers, preventing fraud and tampering." },
+            { front: "Customer Relationship Management (CRM)", back: "Software and strategies designed to manage a company's relationships and interactions with current and potential customers." },
+            { front: "Internet of Things (IoT)", back: "A network of physical objects embedded with sensors and software that connect and exchange data with other devices over the internet." },
+            { front: "Digitisation of the Middleman", back: "The replacement or transformation of traditional intermediaries by digital platforms (e.g., Jiji, Amazon, Konga) connecting buyers directly to sellers." },
+            { front: "Data Centre Disaster Recovery", back: "Contingency planning and backup procedures established to restore IT infrastructure and business operations following a major disruption or cyber attack." },
+            { front: "Fintech", back: "Technology-driven financial innovations—such as mobile payment platforms and digital lending—competing with traditional banking services." },
+            { front: "Separation of Duties (SoD)", back: "An internal control mechanism ensuring no single individual has complete control over a financial transaction from start to finish, preventing fraud and errors." }
+        ];
+
+        let currentCardIndex = 0;
+        let isCardFlipped = false;
+
+        function loadFlashcard() {
+            const card = flashcardsData[currentCardIndex];
+            document.getElementById('flashcard-front').innerText = card.front;
+            document.getElementById('flashcard-back').innerText = card.back;
+            document.getElementById('flashcard-counter').innerText = `Card ${currentCardIndex + 1} of ${flashcardsData.length}`;
+            document.getElementById('flashcard-front').classList.remove('hidden');
+            document.getElementById('flashcard-back').classList.add('hidden');
+            isCardFlipped = false;
+        }
+
+        function flipCard() {
+            const front = document.getElementById('flashcard-front');
+            const back = document.getElementById('flashcard-back');
+            if(isCardFlipped) {
+                front.classList.remove('hidden');
+                back.classList.add('hidden');
+                isCardFlipped = false;
+            } else {
+                front.classList.add('hidden');
+                back.classList.remove('hidden');
+                isCardFlipped = true;
+            }
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcardsData.length;
+            loadFlashcard();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + flashcardsData.length) % flashcardsData.length;
+            loadFlashcard();
+        }
+
+        // Quiz Data
+        const quizQuestions = [
+            {
+                question: "Which software system is designed to integrate and coordinate all functional areas of a business, including manufacturing, HR, finance, and supply chain?",
+                options: [
+                    { text: "Customer Relationship Management (CRM)", isCorrect: false, rationale: "CRM focuses on customer interactions and sales pipelines, not internal enterprise integration." },
+                    { text: "Enterprise Resource Planning (ERP)", isCorrect: true, rationale: "ERP systems integrate core business processes across departments into a unified software platform." },
+                    { text: "Spreadsheet Application", isCorrect: false, rationale: "Spreadsheets are standalone personal productivity tools rather than enterprise-wide integration systems." },
+                    { text: "Relational Database Management System", isCorrect: false, rationale: "While databases store data, ERP is the comprehensive integrated suite managing all business operations." }
+                ],
+                hint: "Think of an integrated suite that spans across production, HR, and accounting."
+            },
+            {
+                question: "What is the primary function of ransomware in a cyber-attack?",
+                options: [
+                    { text: "To secretly steal intellectual property and sell it to competitors", isCorrect: false, rationale: "Stealing data without locking access is corporate espionage or data exfiltration, not ransomware." },
+                    { text: "To encrypt organizational files and lock users out until a payment is made", isCorrect: true, rationale: "Ransomware locks victims out of their systems via encryption and demands a ransom for file recovery." },
+                    { text: "To flood a website with traffic until servers crash", isCorrect: false, rationale: "Flooding servers with traffic is a Denial of Service (DoS) attack, not ransomware." },
+                    { text: "To monitor employee keystrokes and track internet usage", isCorrect: false, rationale: "Monitoring keystrokes is performed by spyware or keyloggers." }
+                ],
+                hint: "Think about malicious software that holds your data hostage."
+            },
+            {
+                question: "Which emerging technology provides an immutable, decentralized digital ledger that securely records transactions across multiple computers?",
+                options: [
+                    { text: "Cloud Computing", isCorrect: false, rationale: "Cloud computing refers to on-demand remote servers and storage over the internet." },
+                    { text: "Blockchain", isCorrect: true, rationale: "Blockchain uses cryptographic hashing across a distributed network to ensure tamper-proof, transparent record-keeping." },
+                    { text: "Internet of Things (IoT)", isCorrect: false, rationale: "IoT refers to connected physical sensors and smart objects communicating data." },
+                    { text: "Statistical Modelling", isCorrect: false, rationale: "Statistical modelling involves mathematical predictions and data analysis." }
+                ],
+                hint: "It is the cryptographic backbone behind cryptocurrencies and secure supply chains."
+            },
+            {
+                question: "How does the 'digitisation of the middleman' impact modern retail business structures?",
+                options: [
+                    { text: "It increases transaction friction and adds unnecessary layers of bureaucracy.", isCorrect: false, rationale: "Digitisation reduces friction and eliminates traditional intermediaries." },
+                    { text: "It connects buyers and sellers directly through digital platforms, reducing friction.", isCorrect: true, rationale: "Platforms like Amazon and Jiji disintermediate traditional middlemen by connecting buyers and sellers directly." },
+                    { text: "It restricts trade exclusively to physical wholesale markets.", isCorrect: false, rationale: "Digitisation moves commerce online rather than restricting it to physical markets." },
+                    { text: "It eliminates the need for any logistics or delivery providers.", isCorrect: false, rationale: "Logistics remain vital; platforms often partner with delivery providers to fulfil orders." }
+                ],
+                hint: "Think of platforms like Jiji or Amazon connecting consumers and vendors directly."
+            },
+            {
+                question: "What is the primary purpose of data centre disaster recovery and contingency plans?",
+                options: [
+                    { text: "To minimize tax liabilities during financial audits", isCorrect: false, rationale: "Tax liabilities are managed by accounting and tax departments, not IT disaster recovery." },
+                    { text: "To ensure business continuity and operational recovery following severe IT disruptions", isCorrect: true, rationale: "Disaster recovery plans ensure critical data and systems can be restored swiftly after outages or cyber attacks." },
+                    { text: "To accelerate internet connection speeds for employees", isCorrect: false, rationale: "Network bandwidth management handles internet speeds, not disaster recovery." },
+                    { text: "To eliminate the need for cybersecurity insurance", isCorrect: false, rationale: "Disaster recovery mitigates downtime risk but does not replace insurance." }
+                ],
+                hint: "Think about what happens to a business when servers crash or power fails."
+            },
+            {
+                question: "Which of the following best describes the Internet of Things (IoT)?",
+                options: [
+                    { text: "A global network of physical devices embedded with sensors to exchange data", isCorrect: true, rationale: "IoT connects everyday physical objects to the internet for remote monitoring and automated data exchange." },
+                    { text: "An advanced accounting software package for multinational banks", isCorrect: false, rationale: "Accounting software manages ledgers and financial reporting, not connected physical objects." },
+                    { text: "A strict government regulation governing data privacy", isCorrect: false, rationale: "Data privacy is governed by laws like the NDPR, not IoT." },
+                    { text: "A database management system for customer relations", isCorrect: false, rationale: "CRM systems manage customer interactions, not smart physical sensors." }
+                ],
+                hint: "Think of smart appliances and connected physical sensors tracking assets in transit."
+            },
+            {
+                question: "What is a primary advantage of utilizing Cloud Computing in business operations?",
+                options: [
+                    { text: "Eliminating all legal and regulatory compliance requirements", isCorrect: false, rationale: "Firms remain legally responsible for compliance regardless of where data is hosted." },
+                    { text: "Providing scalable on-demand computing resources and remote accessibility", isCorrect: true, rationale: "Cloud computing allows businesses to scale resources up or down easily and access data securely from anywhere." },
+                    { text: "Guaranteeing absolute immunity from cyber-attacks", isCorrect: false, rationale: "No IT architecture is 100% immune to sophisticated cyber threats." },
+                    { text: "Removing the need for internet connectivity", isCorrect: false, rationale: "Cloud computing requires reliable internet access to function." }
+                ],
+                hint: "Think about flexibility, cost savings on physical hardware, and remote access."
+            },
+            {
+                question: "In the context of IT policies, what is the role of Multi-Factor Authentication (MFA)?",
+                options: [
+                    { text: "To speed up customer service response times", isCorrect: false, rationale: "MFA is a security control, not a customer service tool." },
+                    { text: "To provide an additional layer of security by requiring two or more verification factors", isCorrect: true, rationale: "MFA requires something you know (password) and something you have/are (OTP, biometric) to prevent unauthorized access." },
+                    { text: "To automatically calculate monthly corporate taxes", isCorrect: false, rationale: "Tax calculations are handled by ERP or accounting modules." },
+                    { text: "To archive old financial reports automatically", isCorrect: false, rationale: "Archiving is managed by document management systems." }
+                ],
+                hint: "Think of entering your password plus an extra code sent to your mobile phone."
+            },
+            {
+                question: "What distinguishes an E-commerce B2B model from a B2C model?",
+                options: [
+                    { text: "B2B involves transactions between businesses, whereas B2C involves transactions between businesses and individual consumers.", isCorrect: true, rationale: "B2B stands for Business-to-Business, while B2C stands for Business-to-Consumer." },
+                    { text: "B2B transactions do not require any form of payment system.", isCorrect: false, rationale: "All commercial models require secure payment settlement mechanisms." },
+                    { text: "B2C transactions are exclusively conducted offline.", isCorrect: false, rationale: "B2C e-commerce refers to online retail shopping by individual consumers." },
+                    { text: "B2B companies are legally prohibited from using cloud storage.", isCorrect: false, rationale: "B2B enterprises extensively utilize cloud infrastructure." }
+                ],
+                hint: "Look at who the transacting parties are on either end."
+            },
+            {
+                question: "Why is data analytics increasingly critical for modern business operations?",
+                options: [
+                    { text: "It allows companies to eliminate all business risks entirely.", isCorrect: false, rationale: "Data analytics informs decisions but cannot eliminate external market risks completely." },
+                    { text: "It transforms raw data into actionable insights to improve efficiency and decision-making.", isCorrect: true, rationale: "Data analytics uncovers hidden trends, customer preferences, and operational bottlenecks to drive strategic growth." },
+                    { text: "It replaces the need for executive leadership and management.", isCorrect: false, rationale: "Analytics supports human decision-making; it does not replace leadership." },
+                    { text: "It reduces employee salary expenses across departments.", isCorrect: false, rationale: "Analytics is an analytical function, not a payroll reduction tool." }
+                ],
+                hint: "Think about turning large volumes of operational data into smart strategic decisions."
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let selectedOptionIndex = null;
+        let answeredCurrentQuestion = false;
+
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-box').classList.remove('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            currentQuizIndex = 0;
+            quizScore = 0;
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress-label').innerText = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-question-text').innerText = q.question;
+            document.getElementById('quiz-hint-text').innerText = `Hint: ${q.hint}`;
+            
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition font-medium text-slate-700 flex items-center justify-between group";
+                btn.innerHTML = `<span><strong class="mr-2 text-indigo-600">${String.fromCharCode(65 + idx)}.</strong> ${opt.text}</span><i class="fa-regular fa-circle text-slate-300 group-hover:text-indigo-600"></i>`;
+                btn.onclick = () => selectQuizOption(idx);
+                btn.id = `quiz-opt-${idx}`;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+            selectedOptionIndex = null;
+            answeredCurrentQuestion = false;
+        }
+
+        function selectQuizOption(idx) {
+            if (answeredCurrentQuestion) return;
+            answeredCurrentQuestion = true;
+            selectedOptionIndex = idx;
+
+            const q = quizQuestions[currentQuizIndex];
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            feedbackBox.classList.remove('hidden');
+
+            q.options.forEach((opt, i) => {
+                const btn = document.getElementById(`quiz-opt-${i}`);
+                btn.disabled = true;
+                if (opt.isCorrect) {
+                    btn.classList.remove('border-slate-200', 'hover:border-indigo-400', 'hover:bg-indigo-50/50');
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+                    btn.innerHTML = `<span><strong class="mr-2 text-emerald-600">${String.fromCharCode(65 + i)}.</strong> ${opt.text}</span><i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+                } else if (i === idx && !opt.isCorrect) {
+                    btn.classList.remove('border-slate-200', 'hover:border-indigo-400', 'hover:bg-indigo-50/50');
+                    btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                    btn.innerHTML = `<span><strong class="mr-2 text-rose-600">${String.fromCharCode(65 + i)}.</strong> ${opt.text}</span><i class="fa-solid fa-circle-xmark text-rose-600"></i>`;
+                }
+            });
+
+            if (q.options[idx].isCorrect) {
+                quizScore++;
+                feedbackBox.className = "p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i><strong>Correct!</strong> ${q.options[idx].rationale}`;
+            } else {
+                feedbackBox.className = "p-4 rounded-xl text-sm font-medium bg-rose-50 text-rose-800 border border-rose-200";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2"></i><strong>Incorrect.</strong> ${q.options[idx].rationale}`;
+            }
+
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+            
+            const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+            document.getElementById('quiz-score-summary').innerText = `You scored ${quizScore} out of ${quizQuestions.length} (${percentage}%)`;
+
+            // Update global progress
+            document.getElementById('overall-progress-text').innerText = `${percentage}%`;
+            document.getElementById('overall-progress-bar').style.width = `${percentage}%`;
+
+            if (percentage >= 70) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function resetQuiz() {
+            startQuiz();
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            loadFlashcard();
+        };
+    </script>
+</body>
+</html>
